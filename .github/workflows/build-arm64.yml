@@ -52,7 +52,8 @@ jobs:
           sudo chroot $GITHUB_WORKSPACE/ubuntu apt clean
           sudo rm -rf $GITHUB_WORKSPACE/ubuntu/var/lib/apt/lists/*
           EOF
-          tar --exclude=ubuntu/dev/* -czvf rootfs.tar.gz ubuntu
+          sudo chmod -R 777 ubuntu
+          tar --exclude=dev/* -czvf rootfs.tar.gz ubuntu
 
       - name: Combine wsldl and rootfs
         run: |
