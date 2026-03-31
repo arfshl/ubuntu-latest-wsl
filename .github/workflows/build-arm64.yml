@@ -55,7 +55,7 @@ jobs:
           sudo rm -rf $GITHUB_WORKSPACE/ubuntu/tmp*
           EOF
           cd ubuntu
-          sudo tar --exclude=dev/* --warning=no-file-changed -czpvf rootfs.tar.gz -C .
+          sudo tar --exclude=dev/* --warning=no-file-changed -czpvf ../rootfs.tar.gz .
 
       - name: Combine wsldl and rootfs
         run: |
