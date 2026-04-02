@@ -1,7 +1,7 @@
 # ubuntu-latest-wsl
 Forked from [yuk7/AlpineWSL](https://github.com/yuk7/AlpineWSL)
 
-Ubuntu Latest (non-lts) on WSL (Windows 10 1803 or later)
+Ubuntu Latest (Including latest LTS and interim) on WSL (Windows 10 1803 or later)
 based on [wsldl](https://github.com/yuk7/wsldl)
 
 ![screenshot](https://github.com/arfshl/ubuntu-latest-wsl/raw/main/screenshot.png)
