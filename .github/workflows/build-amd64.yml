@@ -41,10 +41,28 @@ jobs:
           --variant=apt \
           --components="main,universe,multiverse" \
           --include=locales,passwd,software-properties-common,ca-certificates \
-          --format=tar \
+          --format=directory \
           ${dist_version} \
-          rootfs.tar.gz \
+          ubuntu \
           http://archive.ubuntu.com/ubuntu
+
+          cat <<- EOF | sudo unshare -mpf bash -e -
+          sudo mount --bind /dev $GITHUB_WORKSPACE/ubuntu/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/ubuntu/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/ubuntu/sys
+          sudo mount --bind /etc/resolv.conf $GITHUB_WORKSPACE/ubuntu/etc/resolv.conf
+          sudo chroot $GITHUB_WORKSPACE/ubuntu apt update
+          sudo chroot $GITHUB_WORKSPACE/ubuntu apt purge -yq --allow-remove-essential coreutils-from-uutils
+          sudo chroot $GITHUB_WORKSPACE/ubuntu apt purge -yq --allow-remove-essential rust-coreutils
+          sudo chroot $GITHUB_WORKSPACE/ubuntu apt install -yq coreutils-from-gnu
+          sudo chroot $GITHUB_WORKSPACE/ubuntu apt install -yq gnu-coreutils
+          sudo chroot $GITHUB_WORKSPACE/ubuntu apt clean
+          sudo rm -rf $GITHUB_WORKSPACE/ubuntu/var/lib/apt/lists/*
+          sudo rm -rf $GITHUB_WORKSPACE/ubuntu/var/tmp*
+          sudo rm -rf $GITHUB_WORKSPACE/ubuntu/tmp*
+          EOF
+          cd ubuntu
+          sudo tar --exclude=dev/* --warning=no-file-changed -czpvf ../rootfs.tar.gz .
 
       - name: Combine wsldl and rootfs
         run: |
@@ -61,4 +79,4 @@ jobs:
             ubuntu-latest.zip
             rootfs.tar.gz
           preserve_order: true
-          make_latest: false
+          make_latest: true
