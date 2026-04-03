@@ -1,5 +1,9 @@
 name: "Build amd64"
 
+env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      RELEASE: jammy
+
 on:
   workflow_dispatch:
   schedule:
@@ -75,7 +79,3 @@ jobs:
             rootfs.tar.gz
           preserve_order: true
           make_latest: false
-
-env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      RELEASE: questing
