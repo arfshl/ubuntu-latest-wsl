@@ -2,7 +2,7 @@ name: "Build amd64"
 
 env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      RELEASE: jammy
+      RELEASE: noble
 
 on:
   workflow_dispatch:
