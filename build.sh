@@ -60,4 +60,3 @@ else
    mv Ubuntu.exe ubuntu.exe
    bsdtar -a -cf ubuntu.zip rootfs.tar.gz ubuntu.exe
 fi
-   
