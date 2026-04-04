@@ -6,8 +6,8 @@ based on [wsldl](https://github.com/yuk7/wsldl)
 
 ![screenshot](https://github.com/arfshl/ubuntu-latest-wsl/raw/main/screenshot.png)
 
-[![GitHub Workflow Build amd64](https://img.shields.io/github/actions/workflow/status/arfshl/ubuntu-latest-wsl/build-amd64.yml?style=flat-square)](https://github.com/arfshl/ubuntu-latest-wsl/actions/workflows/build-amd64.yaml)
-[![GitHub Workflow Build arm64](https://img.shields.io/github/actions/workflow/status/arfshl/ubuntu-latest-wsl/build-arm64.yml?style=flat-square)](https://github.com/arfshl/ubuntu-latest-wsl/actions/workflows/build-arm64.yaml)
+[![Build amd64](https://github.com/arfshl/ubuntu-latest-wsl/actions/workflows/build-amd64.yml/badge.svg)](https://github.com/arfshl/ubuntu-latest-wsl/actions/workflows/build-amd64.yml)
+[![Build arm64](https://github.com/arfshl/ubuntu-latest-wsl/actions/workflows/build-arm64.yml/badge.svg)](https://github.com/arfshl/ubuntu-latest-wsl/actions/workflows/build-arm64.yml)
 [![Github All Releases](https://img.shields.io/github/downloads/arfshl/ubuntu-latest-wsl/total.svg?style=flat-square)](https://github.com/arfshl/ubuntu-latest-wsl/releases/latest)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 ![License](https://img.shields.io/github/license/arfshl/ubuntu-latest-wsl.svg?style=flat-square)
@@ -74,7 +74,7 @@ Usage :
 >ubuntu-latest.exe clean
 
 ```
-[![AlpineWSL-edge](https://github-readme-stats-fast.vercel.app/api/pin/?username=arfshl&repo=alpinewsl-edgel&theme=transparent)](https://https://github.com/arfshl/alpinewsl-edge)
+[![AlpineWSL-edge](https://github-readme-stats-fast.vercel.app/api/pin/?username=arfshl&repo=alpinewsl-edgel&theme=transparent)](https://github.com/arfshl/alpinewsl-edge)
 [![VoidWSL](https://github-readme-stats-fast.vercel.app/api/pin/?username=arfshl&repo=voidwsl&theme=transparent)](https://https://github.com/arfshl/voidwsl)
 [![debianwsl](https://github-readme-stats-fast.vercel.app/api/pin/?username=arfshl&repo=debianwsl&theme=transparent)](https://github.com/arfshl/debianwsl)
 [![devuanwsl](https://github-readme-stats-fast.vercel.app/api/pin/?username=arfshl&repo=devuanwsl&theme=transparent)](https://github.com/arfshl/devuanwsl)
