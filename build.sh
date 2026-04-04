@@ -1,10 +1,10 @@
 #!/bin/sh
 
 # export the env
-export ARCH=$(dpkg --print-architecture)
 export RELEASE=questing
-echo "ARCH=$ARCH" >> "$GITHUB_ENV"
+export ARCH=$(dpkg --print-architecture)
 echo "RELEASE=$RELEASE" >> "$GITHUB_ENV"
+echo "ARCH=$ARCH" >> "$GITHUB_ENV"
 
 # install depedencies
 sudo apt update && sudo apt install -yq curl libarchive-tools

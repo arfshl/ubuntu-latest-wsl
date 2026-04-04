@@ -1,9 +1,5 @@
 name: "Build arm64"
 
-env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      RELEASE: questing
-
 on:
   workflow_dispatch:
   schedule:
@@ -12,7 +8,8 @@ on:
   push:
     branches: [ 'main' ]
     paths:
-      - ".github/workflows/build-arm64.yml"
+      - "build.sh"
+      - ".github/workflows/*.yml"
 
 permissions:
   contents: write  
@@ -25,59 +22,19 @@ jobs:
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
-      - name: Install Needed Dependencies
+      - name: start build
         run: |
-          sudo apt update && sudo apt install -yq curl libarchive-tools
-          curl -L -o /tmp/mmdebstrap.deb http://ftp.us.debian.org/debian/pool/main/m/mmdebstrap/mmdebstrap_1.5.7-3_all.deb
-          sudo apt install -yq /tmp/mmdebstrap.deb
-          curl -L -o /tmp/keyring.deb http://ftp.us.debian.org/debian/pool/main/d/debian-archive-keyring/debian-archive-keyring_2025.1_all.deb
-          sudo apt install -yq /tmp/keyring.deb
-          curl -L -o /tmp/devuankey.deb http://deb.devuan.org/merged/pool/DEVUAN/main/d/devuan-keyring/devuan-keyring_2025.08.09_all.deb
-          sudo apt install -yq /tmp/devuankey.deb
-      - name: Build rootfs
-        run: |
-          dist_version="$RELEASE"
-          sudo mmdebstrap \
-          --arch=arm64 \
-          --variant=apt \
-          --components="main,universe,multiverse" \
-          --include=locales,passwd,software-properties-common,ca-certificates \
-          --format=directory \
-          ${dist_version} \
-          ubuntu \
-          http://ports.ubuntu.com/ubuntu-ports
-
-          cat <<- EOF | sudo unshare -mpf bash -e -
-          sudo mount --bind /dev $GITHUB_WORKSPACE/ubuntu/dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/ubuntu/proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/ubuntu/sys
-          sudo mount --bind /etc/resolv.conf $GITHUB_WORKSPACE/ubuntu/etc/resolv.conf
-          sudo chroot $GITHUB_WORKSPACE/ubuntu apt update
-          sudo chroot $GITHUB_WORKSPACE/ubuntu apt purge -yq --allow-remove-essential coreutils-from-uutils
-          sudo chroot $GITHUB_WORKSPACE/ubuntu apt purge -yq --allow-remove-essential rust-coreutils
-          sudo chroot $GITHUB_WORKSPACE/ubuntu apt install -yq coreutils-from-gnu
-          sudo chroot $GITHUB_WORKSPACE/ubuntu apt install -yq gnu-coreutils
-          sudo chroot $GITHUB_WORKSPACE/ubuntu apt clean
-          sudo rm -rf $GITHUB_WORKSPACE/ubuntu/var/lib/apt/lists/*
-          sudo rm -rf $GITHUB_WORKSPACE/ubuntu/var/tmp*
-          sudo rm -rf $GITHUB_WORKSPACE/ubuntu/tmp*
-          EOF
-          cd ubuntu
-          sudo tar --exclude=dev/* --warning=no-file-changed -czpvf ../rootfs.tar.gz .
-
-      - name: Combine wsldl and rootfs
-        run: |
-          curl -L https://github.com/yuk7/wsldl/releases/download/26032000/icons_arm64.zip -o icons.zip
-          bsdtar -xf icons.zip
-          mv Ubuntu.exe ubuntu-latest.exe
-          bsdtar -a -cf ubuntu-latest.zip rootfs.tar.gz ubuntu-latest.exe
+          bash build.sh
       - name: Push to release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: release-arm64-${{ env.RELEASE }}
-          name: Release arm64 ${{ env.RELEASE }}
+          tag_name: release-${{ env.ARCH }}-${{ env.RELEASE }}
+          name: Release ${{ env.ARCH }} ${{ env.RELEASE }}
           files: |
-            ubuntu-latest.zip
+            ubuntu.zip
             rootfs.tar.gz
           preserve_order: true
-          make_latest: false
+          make_latest: true
+
+env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
