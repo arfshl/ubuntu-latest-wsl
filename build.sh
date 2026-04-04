@@ -2,7 +2,17 @@
 
 # export the env
 export RELEASE=questing
-export ARCH=$(dpkg --print-architecture)
+ARCH=$(uname -m)
+case "$ARCH" in
+    x86_64) ARCH=amd64 ;;
+    amd64) ARCH=amd64 ;;
+    aarch64) ARCH=arm64 ;;
+    arm64) ARCH=arm64 ;;
+    *)
+        echo "Unsupported architecture: $ARCH"
+        exit 1
+        ;;
+esac
 echo "RELEASE=$RELEASE" >> "$GITHUB_ENV"
 echo "ARCH=$ARCH" >> "$GITHUB_ENV"
 
@@ -47,7 +57,7 @@ EOF
 cd ubuntu
 sudo tar --exclude=dev/* --warning=no-file-changed -czpvf ../rootfs.tar.gz .
 
-# combine wsldl and rootfs
+# combine wsldl and rootfs (with matching arch as machine)
 cd ../
 if [ $ARCH = amd64 ]; then 
    curl -L https://github.com/yuk7/wsldl/releases/download/26032000/icons.zip -o icons.zip
