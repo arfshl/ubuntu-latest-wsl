@@ -30,7 +30,7 @@ sudo mmdebstrap \
 --arch=$ARCH \
 --variant=apt \
 --components="main,universe,multiverse" \
---include=locales,passwd,software-properties-common,ca-certificates \
+--include=locales,passwd,software-properties-common,ca-certificates,sudo,libpam-systemd,dbus,systemd.systemd-sysv \
 --format=directory \
 ${dist_version} \
 ubuntu \
@@ -54,22 +54,14 @@ sudo rm -rf ./ubuntu/var/tmp*
 sudo rm -rf ./ubuntu/tmp*
 EOF
 
-cd ubuntu
-sudo tar --exclude=dev/* --warning=no-file-changed -czpvf ../rootfs.tar.gz .
+sudo cp ./wslconf/oobe.sh ./ubuntu/etc/oobe.sh
+sudo chmod 644 ./ubuntu/etc/oobe.sh
+sudo chmod +x ./ubuntu/etc/oobe.sh
+sudo cp ./wslconf/wsl-distribution.conf ./ubuntu/etc/wsl-distribution.conf
+sudo chmod 644 ./ubuntu/etc/wsl-distribution.conf
+sudo mkdir -p ./ubuntu/usr/lib/wsl/
+sudo cp ./wslconf/icon.ico ./ubuntu/usr/lib/wsl/icon.ico
 
-# combine wsldl and rootfs (with matching arch as machine)
-cd ../
-if [ $ARCH = amd64 ]; then 
-   curl -L https://github.com/yuk7/wsldl/releases/download/26032000/icons.zip -o icons.zip
-   bsdtar -xf icons.zip
-   mv Ubuntu.exe ubuntu.exe
-   bsdtar -a -cf ubuntu.zip rootfs.tar.gz ubuntu.exe
-elif [ $ARCH = arm64 ]; then 
-   curl -L https://github.com/yuk7/wsldl/releases/download/26032000/icons_arm64.zip -o icons.zip
-   bsdtar -xf icons.zip
-   mv Ubuntu.exe ubuntu.exe
-   bsdtar -a -cf ubuntu.zip rootfs.tar.gz ubuntu.exe
-else
-    echo "Unsupported architecture: $ARCH"
-    exit 1  
-fi
+cd ./ubuntu
+sudo tar --numeric-owner --absolute-names -c  * | gzip --best > ../install.tar.gz
+mv ../install.tar.gz ../ubuntu-latest-$ARCH.wsl
