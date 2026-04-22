@@ -13,8 +13,8 @@ case "$ARCH" in
         exit 1
         ;;
 esac
-echo "RELEASE=$RELEASE" >> "$GITHUB_ENV"
-echo "ARCH=$ARCH" >> "$GITHUB_ENV"
+echo "RELEASE=$RELEASE" >> "$GITHUB_OUTPUT"
+echo "ARCH=$ARCH" >> "$GITHUB_OUTPUT"
 
 # install depedencies
 sudo apt update && sudo apt install -yq curl libarchive-tools
