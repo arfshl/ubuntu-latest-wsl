@@ -49,6 +49,9 @@ sudo chroot ./ubuntu apt install -yq coreutils-from-gnu
 sudo chroot ./ubuntu apt install -yq gnu-coreutils
 sudo chroot ./ubuntu apt clean
 
+sudo chroot ./ubuntu sed -i 's/^# \(en_US.UTF-8\)/\1/' /etc/locale.gen
+sudo chroot ./ubuntu /bin/bash -c 'DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales'
+
 sudo rm -rf ./ubuntu/var/lib/apt/lists/*
 sudo rm -rf ./ubuntu/var/tmp*
 sudo rm -rf ./ubuntu/tmp*
