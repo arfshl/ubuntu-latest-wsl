@@ -60,7 +60,7 @@ EOF
 sudo cp ./wslconf/oobe.sh ./ubuntu/etc/oobe.sh
 sudo chmod 644 ./ubuntu/etc/oobe.sh
 sudo chmod +x ./ubuntu/etc/oobe.sh
-sudo cp ./wslconf/oobe.sh ./ubuntu/etc/wsl.conf
+sudo cp ./wslconf/wsl.conf ./ubuntu/etc/wsl.conf
 sudo chmod 644 ./ubuntu/etc/wsl.conf
 sudo cp ./wslconf/wsl-distribution.conf ./ubuntu/etc/wsl-distribution.conf
 sudo chmod 644 ./ubuntu/etc/wsl-distribution.conf
