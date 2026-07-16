@@ -75,17 +75,23 @@ jobs:
           preserve_order: true
           make_latest: true
 
-      - name: Keepalive - Update Dummy Timestamp
-      - uses: actions/checkout@v7
-        run: |
-          date "+%d%m%y" > keepalive
+  keepalive:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v7
+
+    - name: Keepalive - Update Dummy Timestamp
+      run: |
+        date "+%d%m%y" > keepalive
         
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git config user.name "github-actions[bot]"
         
-          git add keepalive
-          git commit -m "chore: automated keepalive [$(date '+%Y-%m-%d')]" || true
-          git push
+        git add keepalive
+        git commit -m "chore: automated keepalive [$(date '+%Y-%m-%d')]" || true
+        git push
     
 
 env:
