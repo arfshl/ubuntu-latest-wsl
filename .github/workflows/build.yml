@@ -76,6 +76,7 @@ jobs:
           make_latest: true
 
       - name: Keepalive - Update Dummy Timestamp
+      - uses: actions/checkout@v7
         run: |
           date "+%d%m%y" > keepalive
         
