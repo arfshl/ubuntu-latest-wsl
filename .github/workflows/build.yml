@@ -74,6 +74,17 @@ jobs:
             ubuntu-latest-arm64.wsl
           preserve_order: true
           make_latest: true
+
+      - name: Keepalive - Update Dummy Timestamp
+        run: |
+          date "+%d%m%y" > keepalive
+        
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+        
+          git add keepalive
+          git commit -m "chore: automated keepalive [$(date '+%Y-%m-%d')]" || true
+          git push
     
 
 env:
