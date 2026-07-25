@@ -3,7 +3,7 @@ name: "Build"
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 0 * * 0"
+    - cron: "0 0 1 * *"
   push:
     branches:
       - 'main'
@@ -74,24 +74,6 @@ jobs:
             ubuntu-latest-arm64.wsl
           preserve_order: true
           make_latest: true
-
-  keepalive:
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v7
-
-    - name: Keepalive - Update Dummy Timestamp
-      run: |
-        date "+%d%m%y" > keepalive
-        
-        git config user.email "github-actions[bot]@users.noreply.github.com"
-        git config user.name "github-actions[bot]"
-        
-        git add keepalive
-        git commit -m "chore: automated keepalive [$(date '+%Y-%m-%d')]" || true
-        git push
     
 
 env:
